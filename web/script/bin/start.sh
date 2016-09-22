@@ -3,7 +3,7 @@
 source "/etc/profile"
 GCLOGPATH="logs/gc.log"
 MAIN_CLASS="com.ymatou.deviceid.starter.Application"
-APP_NAME="sellerquery.trading.iapi.ymatou.com"
+APP_NAME="deviceid.iapi.ymatou.com"
 CLASS_PATH="lib/*:conf"
 JAVA_OPTS=" -server \
             -Xms4096m -Xmx4096m \
