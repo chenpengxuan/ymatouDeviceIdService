@@ -20,8 +20,9 @@ dependencies {
 
 //复制启动，停止脚本
 task copyScript(type: Copy) {
-	into "$buildDir/dist"
 	from "$projectDir/script"
+	into "$buildDir/dist"
+
 }
 
 //复制jar
@@ -33,9 +34,8 @@ task copyJars(type: Copy,dependsOn:jar) {
 
 //复制配置
 task copyConfig(type: Copy){
-	from "$projectDir/src/main/resources/db.properties"
-	from "$projectDir/src/main/resources/disconf.properties"
-	into "$buildDir/dist/conf"
+	from "$projectDir/src/main/resources/spring/dubbo-provider.xml"
+	into "$buildDir/dist/conf/spring"
 }
 
 //打包发布 发布为：gradle release 默认位置为：build/distributions
