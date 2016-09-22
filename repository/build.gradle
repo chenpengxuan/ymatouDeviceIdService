@@ -1,0 +1,12 @@
+description = "this is a repository jar"
+
+jar {
+	baseName = 'deviceid-repository'
+}
+
+
+dependencies {
+	compile(project(":infrastructure"))
+}
+
+

@@ -1,0 +1,9 @@
+description = "this is mybatis-generator"
+
+dependencies {
+	compile "org.mybatis.generator:mybatis-generator-core:1.3.2"
+	compile "net.sourceforge.jtds:jtds:${jtdsVersion}"
+	compile "commons-io:commons-io:${commonsIoVersion}"
+}
+
+

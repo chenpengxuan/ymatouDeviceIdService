@@ -1,0 +1,16 @@
+description = "this is a test"
+
+dependencies {
+
+    compile(project(":facade:impl")){
+        exclude group:'junit' ,module:'junit'
+    }
+
+
+    compile "org.jmockit:jmockit:${jmockitVersion}"
+    compile "junit:junit:${junitVersion}"
+    compile "org.springframework:spring-test:${springVersion}"
+    compile "com.googlecode.junit-toolbox:junit-toolbox:${junitToolboxVersion}"
+}
+
+

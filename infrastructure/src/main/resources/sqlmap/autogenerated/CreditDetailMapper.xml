@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ymatou.deviceid.infrastructure.db.mapper.CreditDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ymatou.deviceid.infrastructure.db.model.CreditDetailPo" >
+    <id column="iCreditDetailId" property="creditDetailId" jdbcType="BIGINT" />
+    <result column="iUserId" property="userId" jdbcType="INTEGER" />
+    <result column="sTargetId" property="targetId" jdbcType="VARCHAR" />
+    <result column="fPoint" property="point" jdbcType="DOUBLE" />
+    <result column="sDescription" property="description" jdbcType="VARCHAR" />
+    <result column="iSort" property="sort" jdbcType="INTEGER" />
+    <result column="iType" property="type" jdbcType="INTEGER" />
+    <result column="sIP" property="IP" jdbcType="VARCHAR" />
+    <result column="dAddTime" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="dUpdateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="iAction" property="action" jdbcType="INTEGER" />
+    <result column="iTargetUserId" property="targetUserId" jdbcType="INTEGER" />
+    <result column="fPoint2" property="point2" jdbcType="DOUBLE" />
+    <result column="iPoint3" property="point3" jdbcType="INTEGER" />
+    <result column="sSellerReply" property="sellerReply" jdbcType="VARCHAR" />
+    <result column="dSellerReplyUpdateTime" property="sellerReplyUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="bFromPurchaseAgent" property="fromPurchaseAgent" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    iCreditDetailId, iUserId, sTargetId, fPoint, sDescription, iSort, iType, sIP, dAddTime, 
+    dUpdateTime, iAction, iTargetUserId, fPoint2, iPoint3, sSellerReply, dSellerReplyUpdateTime, 
+    bFromPurchaseAgent
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ymatou.deviceid.infrastructure.db.model.CreditDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Ymt_CreditDetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Ymt_CreditDetail
+    where iCreditDetailId = #{creditDetailId,jdbcType=BIGINT}
+  </select>
+  <select id="countByExample" parameterType="com.ymatou.deviceid.infrastructure.db.model.CreditDetailExample" resultType="java.lang.Integer" >
+    select count(*) from Ymt_CreditDetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

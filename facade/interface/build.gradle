@@ -1,0 +1,13 @@
+description = "this is a facade jar"
+
+jar {
+	baseName = 'deviceid-facade-interface'
+	version = "${ymatouDeviceIdFacadeVersion}"
+}
+
+
+dependencies {
+	compile(project(":facade:model"))
+}
+
+

@@ -1,0 +1,16 @@
+description = "this is a model jar"
+
+jar {
+	baseName = 'deviceid-facade-impl'
+}
+
+
+dependencies {
+	compile(project(":repository"))
+	compile(project(":facade:interface"))
+
+	compile "org.apache.tomcat.embed:tomcat-embed-core:${tomcatEmbedVersion}"
+	compile "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatEmbedVersion}"
+}
+
+

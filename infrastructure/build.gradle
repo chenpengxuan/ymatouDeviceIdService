@@ -1,0 +1,59 @@
+description = "this is a infrastructure jar"
+
+jar {
+	baseName = "deviceid-infrastructure"
+}
+
+
+dependencies {
+	compile(project(":facade:model"))
+
+	compile "ch.qos.logback:logback-classic:${logbackVersion}"
+	compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile "com.alibaba:druid:${druidVersion}"
+	compile "org.mybatis:mybatis-spring:${mybatisSpringVersion}"
+	compile "org.mybatis:mybatis:${mybatisVersion}"
+	compile "net.sourceforge.jtds:jtds:${jtdsVersion}"
+	compile "org.springframework:spring-context:${springVersion}"
+	compile "org.springframework:spring-context-support:${springVersion}"
+	compile "org.springframework:spring-orm:${springVersion}"
+	compile "org.springframework:spring-aspects:${springVersion}"
+	compile "org.springframework.data:spring-data-mongodb:${springDataMongoVersion}"
+	compile "com.alibaba:dubbo:${dubboxVersion}"
+
+	compile "org.mongodb:mongo-java-driver:3.3.0"
+	compile "org.apache.httpcomponents:httpclient:${httpclientVersion}"
+	compile "org.apache.httpcomponents:httpcore:${httpcoreVersion}"
+
+//	compile ("org.apache.zookeeper:zookeeper:${zookeeperVersion}"){
+//		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+//	}
+	compile ("com.github.sgroschupf:zkclient:${zkclientVersion}"){
+		exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+	}
+
+	compile "com.esotericsoftware:kryo:${kryoVersion}"
+	compile "de.javakaffee:kryo-serializers:${kryoSerializersVersion}"
+	compile "org.mongodb:mongo-java-driver:${mongoDriverVerson}"
+
+	compile "org.jboss.resteasy:resteasy-jaxrs:${resteasyJaxrsVersion}"
+	compile "org.jboss.resteasy:resteasy-client:${resteasyJaxrsVersion}"
+
+	//ymatou
+	compile ("com.ymatou:performancemonitorclient:${performanceMonitorClientVersion}"){
+		exclude group:'junit' ,module:'junit'
+
+	}
+	compile "com.ymatou.errorreporter:errorreporter-logback:${errorreporterVersion}"
+	compile "com.ymatou.disconf:disconf-client:${disconfVersion}"
+}
+
+configurations {
+
+
+	compile.exclude group:"junit",module:"junit"
+
+}
+
+
