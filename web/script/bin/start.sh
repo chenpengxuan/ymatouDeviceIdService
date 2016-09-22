@@ -17,7 +17,7 @@ JAVA_OPTS=" -server \
             -Dsun.net.inetaddr.ttl=60 \
             -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/log/${APP_NAME}/heapdump.hprof"
 
-#############intial work##########################
+#############intial work####################
 cd /usr/local/${APP_NAME}/default
 if [ -e "logs" ]; then
     rm logs
