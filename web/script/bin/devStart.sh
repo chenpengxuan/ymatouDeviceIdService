@@ -2,7 +2,7 @@
 
 source "/etc/profile"
 MAIN_CLASS="com.ymatou.deviceid.starter.Application"
-APP_NAME="sellerquery.trading.iapi.ymatou.com"
+APP_NAME="deviceid.iapi.ymatou.com"
 CLASS_PATH="lib/*:conf"
 JAVA_OPTS="-Xms1096M -Xmx1096M -Xmn500M -XX:PermSize=256M -XX:MaxPermSize=512M \
     -XX:+UseConcMarkSweepGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75 \
