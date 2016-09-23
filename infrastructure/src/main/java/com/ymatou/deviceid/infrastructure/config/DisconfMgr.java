@@ -22,11 +22,11 @@ public class DisconfMgr {
 
 
     @Bean(name = "disconfMgrBean", destroyMethod = "destroy")
-    @DependsOn({"bizConfig"})
+    @DependsOn({"bizConfig","mongoProps"})
     public DisconfMgrBean disconfMgrBean() {
 
         DisconfMgrBean disconfMgrBean = new DisconfMgrBean();
-        disconfMgrBean.setScanPackage("com.ymatou.deviceid");
+        disconfMgrBean.setScanPackage("com.ymatou");
 
         return disconfMgrBean;
     }

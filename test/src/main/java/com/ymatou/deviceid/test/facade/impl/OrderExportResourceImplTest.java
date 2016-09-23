@@ -1,20 +1,6 @@
 package com.ymatou.deviceid.test.facade.impl;
 
-import com.google.common.collect.Lists;
-import com.ymatou.deviceid.facade.model.req.ExistsSellerExportedOrderInfosReq;
-import com.ymatou.deviceid.facade.model.req.ExportSellerOrderInfosReq;
-import com.ymatou.deviceid.facade.model.req.ExportSellerProductInfosReq;
-import com.ymatou.deviceid.facade.model.resp.ExistsResp;
-import com.ymatou.deviceid.facade.model.resp.ExportSellerOrderInfosResp;
-import com.ymatou.deviceid.facade.model.resp.ExportSellerProductInfosResp;
-import com.ymatou.deviceid.facade.model.vo.TimeRange;
-import com.ymatou.deviceid.infrastructure.constants.Constants;
 import com.ymatou.deviceid.test.WithoutDubboBaseTest;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * Created by zhangzhiqiang on 2016/9/9.

@@ -1,5 +1,6 @@
 package com.ymatou.deviceid.infrastructure.config;
 
+import com.baidu.disconf.client.DisconfMgrBeanSecond;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
@@ -7,6 +8,7 @@ import com.ymatou.deviceid.infrastructure.config.props.MongoProps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +22,7 @@ import java.net.UnknownHostException;
  * Created by zhangyifan on 2016/9/13.
  */
 @Configuration
+@DependsOn("disconfMgrBean2")
 public class MongoConfig extends AbstractMongoConfiguration {
 
     @Autowired

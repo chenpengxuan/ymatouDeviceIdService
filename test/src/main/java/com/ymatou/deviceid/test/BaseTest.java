@@ -22,6 +22,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class BaseTest {
 
+
+    protected  void println(Object obj)
+    {
+        System.out.println(obj);
+    }
     /**
      * 方便测试用例做些临时的数据库操作
      */

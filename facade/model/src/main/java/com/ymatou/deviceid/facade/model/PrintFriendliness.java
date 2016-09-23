@@ -33,6 +33,14 @@ public abstract class PrintFriendliness implements Serializable {
                 + JSON.toJSONString(this, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.SkipTransientField);
     }
 
+    public static String toJson(Object object)
+    {
+        if(object==null)
+            return "null";
+        return object.getClass().getSimpleName() + ":"
+                + JSON.toJSONString(object, SerializerFeature.WriteDateUseDateFormat, SerializerFeature.SkipTransientField);
+    }
+
     protected Date convertDotNetDateToDate(String value) {
         Date date = null;
         if (value != null) {

@@ -6,6 +6,7 @@ package com.ymatou.deviceid.infrastructure.config.props;
 
 import com.baidu.disconf.client.common.annotations.DisconfFile;
 import com.baidu.disconf.client.common.annotations.DisconfFileItem;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component

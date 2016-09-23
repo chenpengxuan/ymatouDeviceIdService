@@ -1,8 +1,7 @@
 package com.ymatou.deviceid.test.facade.impl;
 
 
-import com.ymatou.deviceid.facade.model.req.GetAppSellerOrderReq;
-import com.ymatou.deviceid.facade.model.resp.GetAppSellerOrderResp;
+
 import com.ymatou.deviceid.test.WithoutDubboBaseTest;
 import org.junit.Assert;
 import org.junit.Test;
