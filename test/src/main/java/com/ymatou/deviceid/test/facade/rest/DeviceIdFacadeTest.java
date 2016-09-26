@@ -12,6 +12,7 @@ import org.springframework.data.annotation.AccessType;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by liangzhonghua on 2016/9/26.
@@ -23,9 +24,11 @@ public class DeviceIdFacadeTest extends WithoutDubboBaseTest {
     @Test
     public void TestSave()
     {
+        Random rd = new Random();
+        String deviceId = "deviceid"+rd.nextInt(999999);
         HashMap<String,Object> map =new HashMap<String,Object>();
-        map.put("deviceid","testid5");
-        map.put("userid",213552);
+        map.put("deviceid",deviceId);
+        map.put("userid",rd.nextInt(999999));
         map.put("activeTime",new Date());
         map.put("signVerified",1);
 
@@ -34,7 +37,7 @@ public class DeviceIdFacadeTest extends WithoutDubboBaseTest {
         System.out.println(resp);
         Assert.assertEquals(0,resp.getCode());
 
-        resp=deviceIdResource.get("testid5");
+        resp=deviceIdResource.get(deviceId);
         System.out.println(resp);
 
         Assert.assertEquals(0,resp.getCode());
