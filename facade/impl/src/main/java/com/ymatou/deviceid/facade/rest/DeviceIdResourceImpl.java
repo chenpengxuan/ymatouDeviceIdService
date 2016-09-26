@@ -76,7 +76,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
     }
 
-    private final String secret =bizConfig.getMd5key() ;
+
     private boolean verifyMD5(HashMap<String,Object> map)
     {
 
@@ -97,8 +97,9 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         char[] array = sb.toString().toCharArray();
         Arrays.sort(array);
 
-        String signString = String.valueOf(array).concat(secret);
+        String signString = String.valueOf(array).concat(bizConfig.getMd5key());
 
+        logger.info("signString:"+signString);
        // String md5= Hashing.md5().hashString(signString.toCharArray(), Charsets);
 
         String md5 = DigestUtils.md5Hex(signString);
