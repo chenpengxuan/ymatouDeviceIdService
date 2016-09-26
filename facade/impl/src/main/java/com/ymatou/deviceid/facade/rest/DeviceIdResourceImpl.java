@@ -37,6 +37,10 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
     @Autowired
     private BizConfig bizConfig;
 
+    private final int MD5VerifiedUnknow=1;
+    private final int MD5VerifiedOK=2;
+    private final int MD5VerfiedFail=3;
+
     @POST
     @Path("/save")
     @Consumes("application/json")
@@ -49,9 +53,9 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         try {
             deviceId = (String)dataMap.get("deviceid");
 
-            boolean isMd5Verified = verifyMD5(dataMap);
-            logger.info(deviceId+",md5verfied:"+isMd5Verified);
-            dataMap.put("signVerified",isMd5Verified);
+            int verified = verifyMD5(dataMap);
+            logger.info(deviceId+",md5verfied:"+verified);
+            dataMap.put("signVerified",verified);
             dataMap.put("activeTime",new Date());
 
             deviceIdRepository.save(dataMap);
@@ -77,13 +81,20 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
     }
 
 
-    private boolean verifyMD5(HashMap<String,Object> map)
+    private int verifyMD5(HashMap<String,Object> map)
     {
 
-        if(map.containsKey("signVerified"))
-           if ((boolean)map.get("signVerified"))
-               return (boolean)map.get("signVerified");
+        if(map.containsKey("signVerified")) {
 
+            //如果传入了签名结果，以传入的为准
+            int md5Sign = (int) map.get("signVerified");
+            if (md5Sign== MD5VerifiedOK || md5Sign == MD5VerfiedFail || md5Sign == MD5VerifiedUnknow)
+                return md5Sign;
+        }
+
+        //如果没传，老接口数据
+        String sign = getEntryValue(map,"sign");
+        if(org.springframework.util.StringUtils.isEmpty(sign)) return MD5VerifiedUnknow;
 
 
         StringBuilder sb =new StringBuilder();
@@ -97,77 +108,15 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         char[] array = sb.toString().toCharArray();
         Arrays.sort(array);
 
+        logger.info("signString:"+String.valueOf(array));
         String signString = String.valueOf(array).concat(bizConfig.getMd5key());
 
-        logger.info("signString:"+signString);
-       // String md5= Hashing.md5().hashString(signString.toCharArray(), Charsets);
-
         String md5 = DigestUtils.md5Hex(signString);
-        String sign = getEntryValue(map,"sign");
-        if(org.springframework.util.StringUtils.isEmpty(sign)) return false;
+        return md5.equalsIgnoreCase(sign)?MD5VerifiedOK:MD5VerfiedFail;
 
-        return md5.equalsIgnoreCase(sign);
-//["app-key", "app-version", "deviceid", "accept-version", "timestamp"]
+        //["app-key", "app-version", "deviceid", "accept-version", "timestamp"]
 
 
-        /*
-        func buildHeader(accept_version: String, parameters: [String: AnyObject]?) {
-        self._header["accept-version"] = accept_version
-        self._header["timestamp"] = String(Int64(NSDate().timeIntervalSince1970 * 1000))
-
-        // 签名
-        var ret_arr: [String] = []
-
-        let sign_arr = ["app-key", "app-version", "deviceid", "accept-version", "timestamp"]
-        for key in sign_arr {
-            var tmp_ret = key
-            if let tmp = self._header[key] {
-                tmp_ret += tmp
-            }
-            ret_arr.append(tmp_ret)
-        }
-
-        if parameters != nil {
-            for (k, v) in parameters! {
-                if let tmp = v as? JSONDictionary {
-                    let tmp_ret = k + (MTToJSONString(tmp) as String)
-                    ret_arr.append(tmp_ret)
-                } else if let tmp = v as? NSArray {
-                    for i in 0 ..< tmp.count {
-                        var tmp_ret = ""
-                        let cur_v = tmp[i]
-                        if cur_v is JSONDictionary || cur_v is NSArray {
-                            tmp_ret = "\(k)[\(i)]\(MTToJSONString(tmp[i]))"
-                        } else {
-                            tmp_ret = "\(k)[\(i)]\(tmp[i])"
-                        }
-                        ret_arr.append(tmp_ret)
-                    }
-                } else {
-                    let tmp_ret = k + String(v)
-                    ret_arr.append(tmp_ret)
-                }
-            }
-        }
-
-        // 按照ASCII排序
-        ret_arr.sortInPlace()
-
-        // MD5
-        let secret = "m8y9uKNrhwVu1Euc"
-        var sign_str = secret
-
-        for str in ret_arr {
-            sign_str += str
-        }
-
-        sign_str += secret
-
-        let md5 = sign_str.utf8.description.md5()
-        self._header["sign"] = md5
-    }
-
-         */
     }
 
     @GET
@@ -197,7 +146,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                 DeviceInfoResp resp = new DeviceInfoResp();
                 resp.setActiveTime(deviceInfo.getActiveTime());
                 resp.setUserId(deviceInfo.getUserid());
-                resp.setSignVerified(deviceInfo.isSignVerified());
+                resp.setSignVerified(deviceInfo.getSignVerified());
 
                 response.setData(resp);
                 response.setMsg(deviceId+" exists");

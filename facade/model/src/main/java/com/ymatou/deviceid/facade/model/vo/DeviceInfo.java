@@ -10,14 +10,13 @@ import java.util.Date;
 public class DeviceInfo extends PrintFriendliness {
     private Date activeTime;
     private int userid;
-    private boolean signVerified;
+    private int signVerified;
 
-
-    public boolean isSignVerified() {
+    public int getSignVerified() {
         return signVerified;
     }
 
-    public void setSignVerified(boolean signVerified) {
+    public void setSignVerified(int signVerified) {
         this.signVerified = signVerified;
     }
 

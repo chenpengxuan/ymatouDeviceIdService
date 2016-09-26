@@ -11,7 +11,7 @@ public class DeviceInfoResp extends  BaseResponse {
     private int userId;
 
 
-    private boolean signVerified;
+    private int signVerified;
 
     public int getUserId() {
         return userId;
@@ -22,13 +22,11 @@ public class DeviceInfoResp extends  BaseResponse {
     }
 
 
-
-
-    public boolean isSignVerified() {
+    public int getSignVerified() {
         return signVerified;
     }
 
-    public void setSignVerified(boolean signVerified) {
+    public void setSignVerified(int signVerified) {
         this.signVerified = signVerified;
     }
 
