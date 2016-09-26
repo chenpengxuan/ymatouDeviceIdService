@@ -57,7 +57,7 @@
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="${dubbo.port}" serialization="kryo"/>
 
-    <dubbo:protocol name="rest" server="tomcat" port="${server.port}"
+    <dubbo:protocol name="rest" server="tomcat" port="${server.port}" accepts="1000" iothreads="500" keepalive="true" threads="700"
                     extension="com.ymatou.deviceid.infrastructure.serialize.JacksonConfig" />
 
 
