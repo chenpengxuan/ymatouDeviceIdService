@@ -20,26 +20,15 @@ import org.springframework.stereotype.Component;
 @DisconfFile(fileName = "biz.properties")
 public class BizConfig {
 
-    private String testProp;
+    private String md5key;
 
-
-
-
-
-
-
-    @DisconfFileItem(name = "testProp")
-    public String getTestProp() {
-        return testProp;
+    @DisconfFileItem(name = "md5key")
+    public String getMd5key() {
+        return md5key;
     }
 
-    public void setTestProp(String testProp) {
-        this.testProp = testProp;
+    public void setMd5key(String md5key) {
+        this.md5key = md5key;
     }
-
-
-
-
-
 
 }

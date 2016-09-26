@@ -7,6 +7,7 @@ import com.google.common.hash.Hashing;
 import com.ymatou.deviceid.facade.model.PrintFriendliness;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
 import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
+import com.ymatou.deviceid.infrastructure.config.BizConfig;
 import com.ymatou.deviceid.repository.DeviceIdRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -26,13 +27,15 @@ import java.util.HashMap;
  */
 @Component("deviceIdResource")
 @Service(protocol = "rest")
-@Produces({"application/json; charset=UTF-8"})
+@Produces({"application/json"})
 @Path("/")
 public class DeviceIdResourceImpl implements DeviceIdResource {
     public static final Logger logger = LoggerFactory.getLogger(DeviceIdResourceImpl.class);
 
     @Autowired
     private DeviceIdRepository deviceIdRepository;
+    @Autowired
+    private BizConfig bizConfig;
 
     @POST
     @Path("/save")
@@ -42,10 +45,15 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         logger.info("activedeviceid:"+ PrintFriendliness.toJson(dataMap));
 
         BaseNetCompatibleResp response = new BaseNetCompatibleResp();
-        String deviceId = (String)dataMap.get("deviceid");
+        String deviceId = null;
         try {
+            deviceId = (String)dataMap.get("deviceid");
+
+            boolean isMd5Verified = verifyMD5(dataMap);
+            logger.info(deviceId+",md5verfied:"+isMd5Verified);
+            dataMap.put("signVerified",isMd5Verified);
             dataMap.put("activeTime",new Date());
-            dataMap.put("signVerified",true);
+
             deviceIdRepository.save(dataMap);
             response.setBcode(0);
             response.setCode(0);
@@ -68,9 +76,15 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
     }
 
-    private final String secret = "m8y9uKNrhwVu1Euc";
+    private final String secret =bizConfig.getMd5key() ;
     private boolean verifyMD5(HashMap<String,Object> map)
     {
+
+        if(map.containsKey("signVerified"))
+           if ((boolean)map.get("signVerified"))
+               return (boolean)map.get("signVerified");
+
+
 
         StringBuilder sb =new StringBuilder();
         sb.append(getEntryValue(map,"appkey"));
