@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MongoProps {
-    @Value("mongo.address")
+    @Value("${mongo.address}")
     private String mongoAddress;
-    @Value("mongo.databaseName")
+    @Value("${mongo.databaseName}")
     private String mongoDatabaseName;
 
 
