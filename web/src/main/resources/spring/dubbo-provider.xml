@@ -25,6 +25,7 @@
         <property name="locations">
             <list>
                 <value>app.properties</value>
+
             </list>
         </property>
     </bean>
