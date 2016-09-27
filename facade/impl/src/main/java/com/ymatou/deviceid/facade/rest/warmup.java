@@ -5,6 +5,6 @@ package com.ymatou.deviceid.facade.rest;
  */
 public interface WarmUp {
     String version();
-    String warmup();
+    String warmup();1112
 
 }
