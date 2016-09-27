@@ -5,13 +5,14 @@ package com.ymatou.deviceid.infrastructure.config.props;
  */
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MongoProps {
-    @Value("mongo.address")
+    @Value("${mongo.address}")
     private String mongoAddress;
-    @Value("mongo.databaseName")
+    @Value("${mongo.databaseName}")
     private String mongoDatabaseName;
 
 
