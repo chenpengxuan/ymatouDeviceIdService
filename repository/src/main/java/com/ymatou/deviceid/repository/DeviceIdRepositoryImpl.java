@@ -37,7 +37,7 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
         Criteria criteria = new Criteria();
         criteria.andOperator(Criteria.where("deviceid").is(deviceId));
 
-        Query query = new Query(criteria).with(new Sort(Sort.Direction.DESC,"activeTime"));
+        Query query = new Query(criteria).with(new Sort(Sort.Direction.ASC,"activeTime"));
 
         return mongoTemplate.findOne(query,DeviceInfo.class, CollectionName);
 
