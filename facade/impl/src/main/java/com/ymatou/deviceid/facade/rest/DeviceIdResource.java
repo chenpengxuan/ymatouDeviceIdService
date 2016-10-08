@@ -1,7 +1,5 @@
 package com.ymatou.deviceid.facade.rest;
 
-import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
-
 import java.util.HashMap;
 
 /**
@@ -10,5 +8,5 @@ import java.util.HashMap;
 public interface DeviceIdResource {
     BaseNetCompatibleResp saveDeviceId(HashMap<String, Object> dataMap);
 
-    BaseNetCompatibleResp get(String deviceId);
+    BaseNetCompatibleResp get(String deviceId, int type);
 }

@@ -26,7 +26,7 @@ public class Application {
     public static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-         Constants.ctx = new AnnotationConfigApplicationContext(Application.class);
+        Constants.ctx = new AnnotationConfigApplicationContext(Application.class);
 
         try {
             Constants.shutdownLatch.await();

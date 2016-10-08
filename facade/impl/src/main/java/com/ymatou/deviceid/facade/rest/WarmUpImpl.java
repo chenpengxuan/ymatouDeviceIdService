@@ -12,13 +12,16 @@ import javax.ws.rs.*;
 @Service(protocol = "rest")
 @Produces({"application/json"})
 @Path("/")
-public class WarmUpImpl implements  WarmUp {
+public class WarmUpImpl implements WarmUp {
 
     @Override
     @GET
     @Path("/version")
     public String version() {
-        return "created 1.0";
+        return "{"
+                + "\"1.0.0\":\"2016-09-30 created\","
+                + "\"1.0.1\":\"2016-10-08 get method add param type\""
+                + "}";
     }
 
     @Override

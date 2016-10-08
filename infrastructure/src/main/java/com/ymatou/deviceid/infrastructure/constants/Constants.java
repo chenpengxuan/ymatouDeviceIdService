@@ -1,7 +1,7 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 
@@ -17,8 +17,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public class Constants {
 
-    public static final String APP_ID = "sellerquery.trading.iapi.ymatou.com";
-    
+    public static final String APP_ID = "deviceid.iapi.ymatou.com";
+
     public static final String LOG_PREFIX = "logPrefix";
 
     public static ShutdownLatch shutdownLatch = new ShutdownLatch(APP_ID);
@@ -27,5 +27,5 @@ public class Constants {
     public static final DateTimeFormatter FORMATTER_YYYYMMDDHHMMSS = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     public static final DateTimeFormatter FORMATTER_YYYYMMDD = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-    public static  final int MAX_PER_QUERY_COUNT = 1000;
+    public static final int MAX_PER_QUERY_COUNT = 1000;
 }

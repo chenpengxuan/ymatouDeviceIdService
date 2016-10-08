@@ -1,7 +1,7 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 package com.ymatou.deviceid.facade.model.resp;
@@ -14,6 +14,10 @@ package com.ymatou.deviceid.facade.model.resp;
  */
 public class BaseMongoResponse extends BaseResponse {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1408553406457778488L;
     /**
      * 是否通过Mongo逻辑
      */

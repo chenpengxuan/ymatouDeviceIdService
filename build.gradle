@@ -22,7 +22,7 @@ allprojects{
     apply plugin: "idea"
 //    apply plugin: "spring-boot"
     apply plugin: "maven"
-    apply plugin: "eclipse-wtp"
+    apply plugin: "eclipse"
 
     compileJava {
         sourceCompatibility = 1.8
@@ -76,7 +76,7 @@ allprojects{
         jodaTimeVerson = "2.9.3"
 
         elApiVersion = "2.2"
-        errorreporterVersion = "1.0.2"
+        errorreporterVersion = "1.0.3"
         performanceMonitorClientVersion = "1.0.5"
         messagebusVersion = "1.0.3"
 

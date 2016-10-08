@@ -1,8 +1,7 @@
 package com.ymatou.deviceid.repository;
 
-import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
-import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
-import com.ymatou.deviceid.infrastructure.mongodb.model.OrderMongo;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,8 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
+import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
 
 
 /**
@@ -21,7 +19,10 @@ import java.util.List;
 @Repository("deviceIdRepository")
 public class DeviceIdRepositoryImpl implements DeviceIdRepository {
 
-    private final String CollectionName="deviceId";
+    private final String CollectionName = "deviceId";
+
+    // 取出最新的DeviceId
+    private final int GET_DEVICEINFO_DESC = 1;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -32,14 +33,18 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
     }
 
     @Override
-    public DeviceInfo getDeviceInfo(String deviceId) {
+    public DeviceInfo getDeviceInfo(String deviceId, int type) {
 
         Criteria criteria = new Criteria();
         criteria.andOperator(Criteria.where("deviceid").is(deviceId));
 
-        Query query = new Query(criteria).with(new Sort(Sort.Direction.ASC,"activeTime"));
-
-        return mongoTemplate.findOne(query,DeviceInfo.class, CollectionName);
+        Query query;
+        if (type == GET_DEVICEINFO_DESC) {
+            query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "activeTime"));
+        } else {
+            query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
+        }
+        return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
 
 
     }

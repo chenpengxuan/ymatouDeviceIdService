@@ -1,7 +1,7 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 
@@ -25,6 +25,7 @@ public class ReflectUtils {
 
     /**
      * 获得超类的参数类型，取第一个参数类型
+     * 
      * @param <T> 类型参数
      * @param clazz 超类类型
      */
@@ -37,9 +38,10 @@ public class ReflectUtils {
      * @param clazz
      * @return
      */
-    public static <T> Class<T> findInterfaceType(Class<?> clazz){
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> findInterfaceType(Class<?> clazz) {
         Class<?>[] interfaces = clazz.getInterfaces();
-        if(interfaces.length > 0 ){
+        if (interfaces.length > 0) {
             return (Class<T>) interfaces[0];
         } else {
             throw new RuntimeException("do not have interfaces");
@@ -55,13 +57,14 @@ public class ReflectUtils {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static <T> Class<T> findParameterizedType(Class<?> clazz, int index) {
         Type parameterizedType = clazz.getGenericSuperclass();
-        //CGLUB subclass target object(泛型在父类上)
+        // CGLUB subclass target object(泛型在父类上)
         if (!(parameterizedType instanceof ParameterizedType)) {
             parameterizedType = clazz.getSuperclass().getGenericSuperclass();
         }
-        if (!(parameterizedType instanceof  ParameterizedType)) {
+        if (!(parameterizedType instanceof ParameterizedType)) {
             return null;
         }
         Type[] actualTypeArguments = ((ParameterizedType) parameterizedType).getActualTypeArguments();
@@ -76,8 +79,7 @@ public class ReflectUtils {
     /**
      * protected constructor.
      */
-    protected ReflectUtils() {
-    }
+    protected ReflectUtils() {}
 
     public static String getGetterMethodName(Object target, String fieldName)
             throws NoSuchMethodException {
@@ -102,7 +104,7 @@ public class ReflectUtils {
     /**
      * get method value by name.
      *
-     * @param target     Object
+     * @param target Object
      * @param methodName method name
      * @return object
      * @throws Exception ex
@@ -118,13 +120,13 @@ public class ReflectUtils {
     /**
      * set method value by name.
      *
-     * @param target      Object
-     * @param methodName  method name
+     * @param target Object
+     * @param methodName method name
      * @param methodValue method value
      * @throws Exception ex
      */
     public static void setMethodValue(Object target, String methodName,
-                                      Object methodValue) throws NoSuchMethodException,
+            Object methodValue) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException {
         Method method = target.getClass().getDeclaredMethod(methodName,
                 methodValue.getClass());
@@ -138,7 +140,7 @@ public class ReflectUtils {
     }
 
     public static Object getFieldValue(Object target, String fieldName,
-                                       boolean isForce) throws NoSuchFieldException,
+            boolean isForce) throws NoSuchFieldException,
             IllegalAccessException {
         Field field = target.getClass().getDeclaredField(fieldName);
         field.setAccessible(isForce);

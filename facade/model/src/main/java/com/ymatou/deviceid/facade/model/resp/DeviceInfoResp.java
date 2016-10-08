@@ -5,13 +5,17 @@ import java.util.Date;
 /**
  * Created by liangzhonghua on 2016/9/23.
  */
-public class DeviceInfoResp extends  BaseResponse {
+public class DeviceInfoResp extends BaseResponse {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7083032286242002956L;
 
     private Date activeTime;
     private int userId;
-
-
     private int signVerified;
+    private String osversion;
 
     public int getUserId() {
         return userId;
@@ -36,5 +40,19 @@ public class DeviceInfoResp extends  BaseResponse {
 
     public void setActiveTime(Date activeTime) {
         this.activeTime = activeTime;
+    }
+
+    /**
+     * @return the osversion
+     */
+    public String getOsversion() {
+        return osversion;
+    }
+
+    /**
+     * @param osversion the osversion to set
+     */
+    public void setOsversion(String osversion) {
+        this.osversion = osversion;
     }
 }

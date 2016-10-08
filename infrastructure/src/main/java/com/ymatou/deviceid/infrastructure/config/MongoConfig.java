@@ -1,10 +1,9 @@
 package com.ymatou.deviceid.infrastructure.config;
 
-import com.baidu.disconf.client.DisconfMgrBeanSecond;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
-import com.ymatou.deviceid.infrastructure.config.props.MongoProps;
+import java.net.UnknownHostException;
+
+import javax.annotation.PreDestroy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,10 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-import javax.annotation.PreDestroy;
-import java.net.UnknownHostException;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
+import com.ymatou.deviceid.infrastructure.config.props.MongoProps;
 
 
 /**
@@ -40,8 +41,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
     }
 
     @Override
-    public String getDatabaseName()
-    {
+    public String getDatabaseName() {
         return mongoProps.getMongoDatabaseName();
     }
 

@@ -18,6 +18,11 @@ public class ExistsResp extends BaseResponse {
 
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -7987887646381810886L;
+
+    /**
      * 是否存在
      */
     private boolean exists;

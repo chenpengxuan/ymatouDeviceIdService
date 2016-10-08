@@ -8,9 +8,16 @@ import java.util.Date;
  * Created by liangzhonghua on 2016/9/23.
  */
 public class DeviceInfo extends PrintFriendliness {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6991284983287959677L;
+
     private Date activeTime;
     private int userid;
     private int signVerified;
+    private String osversion;
+
 
     public int getSignVerified() {
         return signVerified;
@@ -36,5 +43,19 @@ public class DeviceInfo extends PrintFriendliness {
 
     public void setActiveTime(Date activeTime) {
         this.activeTime = activeTime;
+    }
+
+    /**
+     * @return the osversion
+     */
+    public String getOsversion() {
+        return osversion;
+    }
+
+    /**
+     * @param osversion the osversion to set
+     */
+    public void setOsversion(String osversion) {
+        this.osversion = osversion;
     }
 }

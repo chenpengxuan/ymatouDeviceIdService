@@ -6,6 +6,11 @@ package com.ymatou.deviceid.facade.model.req;
 public class BaseMongoRequest extends BaseRequest {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -7227919215928694593L;
+
+    /**
      * 是否强制Mongo逻辑
      */
     private Boolean isRunMongo;
