@@ -29,6 +29,7 @@ dependencies {
 //	compile "org.slf4j:slf4j-api:${slf4jVersion}"
 //
 //	compile "org.springframework:spring-beans:${springVersion}"
+	compile "org.springframework.data:spring-data-mongodb:${springDataMongoVersion}"
 }
 
 

@@ -7,8 +7,8 @@ dependencies {
     }
 
 
-    compile "org.jmockit:jmockit:${jmockitVersion}"
     compile "junit:junit:${junitVersion}"
+    compile "org.jmockit:jmockit:${jmockitVersion}"
     compile "org.springframework:spring-test:${springVersion}"
     compile "com.googlecode.junit-toolbox:junit-toolbox:${junitToolboxVersion}"
 }

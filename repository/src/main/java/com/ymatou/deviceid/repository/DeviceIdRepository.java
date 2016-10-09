@@ -9,7 +9,9 @@ import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
  */
 public interface DeviceIdRepository {
 
-    void save(HashMap<String, Object> data);
+    void insert(HashMap<String, Object> data);
+
+    void save(DeviceInfo deviceInfo);
 
     DeviceInfo getDeviceInfo(String deviceId, int type);
 

@@ -20,7 +20,8 @@ public class WarmUpImpl implements WarmUp {
     public String version() {
         return "{"
                 + "\"1.0.0\":\"2016-09-30.1 created\","
-                + "\"1.0.1\":\"2016-10-09.1 get method add param type\""
+                + "\"1.0.1\":\"2016-10-09.1 get method add param type\","
+                + "\"1.0.2\":\"2016-10-09.2 add update method\""
                 + "}";
     }
 

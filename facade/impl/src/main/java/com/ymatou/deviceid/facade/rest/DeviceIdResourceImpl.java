@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.ymatou.deviceid.facade.model.PrintFriendliness;
+import com.ymatou.deviceid.facade.model.req.UpdateDeviceIdReq;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
 import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
 import com.ymatou.deviceid.infrastructure.config.BizConfig;
@@ -45,6 +46,9 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
     private final int MD5VerifiedOK = 2;
     private final int MD5VerfiedFail = 3;
 
+    // 取出最新的DeviceId
+    private final int BY_ACTIVETIME_DESC = 1;
+
     @POST
     @Path("/save")
     @Consumes("application/json")
@@ -62,7 +66,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             dataMap.put("signVerified", verified);
             dataMap.put("activeTime", new Date());
 
-            deviceIdRepository.save(dataMap);
+            deviceIdRepository.insert(dataMap);
             response.setBcode(0);
             response.setCode(0);
             response.setMsg("saved ok");
@@ -162,5 +166,66 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
         logger.info("getdeviceId:" + deviceId + " resp:" + response.toString());
         return response;
+    }
+
+    @POST
+    @Path("/update")
+    @Consumes("application/json")
+    @Override
+    public BaseNetCompatibleResp updateDeviceId(UpdateDeviceIdReq req) {
+        logger.info("updateDeviceId:" + PrintFriendliness.toJson(req));
+
+        BaseNetCompatibleResp response = new BaseNetCompatibleResp();
+        if (StringUtils.isEmpty(req.getDeviceid())) {
+            response.setCode(100);
+            response.setMsg("DeviceId不能为空.");
+            return response;
+        }
+
+        try {
+            DeviceInfo deviceInfo = deviceIdRepository.getDeviceInfo(req.getDeviceid(), BY_ACTIVETIME_DESC);
+
+            if (deviceInfo == null) {
+                logger.info("deviceId:{} not found, gen new deviceId.", req.getDeviceid());
+                genDeviceId(req);
+
+            } else if (deviceInfo.getUserid() > 0 && deviceInfo.getUserid() == req.getUserid()) {
+                logger.info("deviceId:{} allready have userid, do nothing.", req.getDeviceid());
+
+            } else if (deviceInfo.getUserid() > 0 && deviceInfo.getUserid() != req.getUserid()) {
+                logger.info("deviceId:{} allready have userid, and not equal to req.Userid, gen new deviceId.",
+                        req.getDeviceid());
+                genDeviceId(req);
+
+            } else if (deviceInfo.getUserid() <= 0) {
+                logger.info("deviceId:{} have not userid, update userid.", req.getDeviceid());
+                deviceInfo.setUserid(req.getUserid());
+                deviceIdRepository.save(deviceInfo);
+            }
+            response.setBcode(0);
+            response.setCode(0);
+
+        } catch (Exception e) {
+            logger.error(String.format("update deviceid:%s failed.", req.getDeviceid()), e);
+            response.setCode(101);
+            response.setMsg(String.format("update deviceid:%s failed.", req.getDeviceid()));
+        }
+        return response;
+    }
+
+    /**
+     * 生成DeviceId信息
+     * 
+     * @param req
+     */
+    private void genDeviceId(UpdateDeviceIdReq req) {
+        DeviceInfo deviceInfo = new DeviceInfo();
+        deviceInfo.setDeviceid(req.getDeviceid());
+        deviceInfo.setDid(req.getDid());
+        deviceInfo.setUserid(req.getUserid());
+        deviceInfo.setActiveTime(new Date());
+        deviceInfo.setSignVerified(MD5VerifiedUnknow);
+
+        deviceIdRepository.save(deviceInfo);
     }
 }

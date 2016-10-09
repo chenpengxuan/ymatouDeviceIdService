@@ -1,7 +1,7 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 package com.ymatou.deviceid.test;
@@ -18,10 +18,9 @@ import org.junit.runner.RunWith;
  */
 @RunWith(WildcardPatternSuite.class)
 @SuiteClasses({"**/*Test.class",
-        "!WithDubboConsumerBaseTest.class",
-        "!WithDubboProviderBaseTest.class",
+        "!BaseTest.class",
         "!**/*RestClientTest.class",
 })
-public class GuardTestSuite {
+public class DeviceIdTestSuite {
 
 }

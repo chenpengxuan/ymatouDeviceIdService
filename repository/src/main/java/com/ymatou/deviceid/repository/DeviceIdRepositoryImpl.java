@@ -22,14 +22,21 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
     private final String CollectionName = "deviceId";
 
     // 取出最新的DeviceId
-    private final int GET_DEVICEINFO_DESC = 1;
+    private final int BY_ACTIVETIME_DESC = 1;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Override
-    public void save(HashMap<String, Object> deviceIdInfo) {
+    public void insert(HashMap<String, Object> deviceIdInfo) {
         mongoTemplate.insert(deviceIdInfo, CollectionName);
+    }
+
+
+
+    @Override
+    public void save(DeviceInfo deviceInfo) {
+        mongoTemplate.save(deviceInfo, CollectionName);
     }
 
     @Override
@@ -39,13 +46,11 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
         criteria.andOperator(Criteria.where("deviceid").is(deviceId));
 
         Query query;
-        if (type == GET_DEVICEINFO_DESC) {
+        if (type == BY_ACTIVETIME_DESC) {
             query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "activeTime"));
         } else {
             query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
         }
         return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
-
-
     }
 }
