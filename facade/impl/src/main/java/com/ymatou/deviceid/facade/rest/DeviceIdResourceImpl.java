@@ -187,7 +187,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
             if (deviceInfo == null) {
                 logger.info("deviceId:{} not found, gen new deviceId.", req.getDeviceid());
-                genDeviceId(req);
+                genDeviceId(req, deviceInfo);
 
             } else if (deviceInfo.getUserid() > 0 && deviceInfo.getUserid() == req.getUserid()) {
                 logger.info("deviceId:{} allready have userid, do nothing.", req.getDeviceid());
@@ -195,7 +195,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             } else if (deviceInfo.getUserid() > 0 && deviceInfo.getUserid() != req.getUserid()) {
                 logger.info("deviceId:{} allready have userid, and not equal to req.Userid, gen new deviceId.",
                         req.getDeviceid());
-                genDeviceId(req);
+                genDeviceId(req, deviceInfo);
 
             } else if (deviceInfo.getUserid() <= 0) {
                 logger.info("deviceId:{} have not userid, update userid.", req.getDeviceid());
@@ -218,8 +218,13 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
      * 
      * @param req
      */
-    private void genDeviceId(UpdateDeviceIdReq req) {
+    private void genDeviceId(UpdateDeviceIdReq req, DeviceInfo oldDeviceInfo) {
         DeviceInfo deviceInfo = new DeviceInfo();
+        if (oldDeviceInfo != null) {
+            deviceInfo = oldDeviceInfo;
+            deviceInfo.setId(null);
+        }
+
         deviceInfo.setDeviceid(req.getDeviceid());
         deviceInfo.setDid(req.getDid());
         deviceInfo.setUserid(req.getUserid());

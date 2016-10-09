@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,7 +59,7 @@ public class DeviceIdFacadeTest extends BaseTest {
         map.put("acceptversion", "1.0.0");
         map.put("network", "wifi");
         map.put("appname", "buyer");
-        map.put("osversion", "ios10.0");
+        map.put("osversion", "ios10.1");
 
         BaseNetCompatibleResp resp = deviceIdResource.saveDeviceId(map);
         assertEquals(0, resp.getCode());
@@ -89,6 +90,7 @@ public class DeviceIdFacadeTest extends BaseTest {
         assertNotNull(deviceInfoAfter);
         assertEquals(1, deviceInfoAfter.getSignVerified());
         assertEquals(20, deviceInfoAfter.getUserId());
+        assertEquals("ios10.1", deviceInfoAfter.getOsversion());
     }
 
     @Test
