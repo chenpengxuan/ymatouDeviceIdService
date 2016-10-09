@@ -21,26 +21,24 @@ public class DeviceIdRepositoryTest extends WithoutDubboBaseTest {
 
 
     @Test
-    public void testSaveDeviceId()
-    {
-        HashMap<String,Object> map =new HashMap<String,Object>();
-        map.put("deviceid","testid");
-        map.put("userid",112132);
+    public void testSaveDeviceId() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("deviceid", "testid");
+        map.put("userid", 112132);
 
         deviceIdRepository.save(map);
     }
 
     @Test
-    public void testGetDeviceInfo()
-    {
+    public void testGetDeviceInfo() {
 
-        HashMap<String,Object> map =new HashMap<String,Object>();
-        map.put("deviceid","testid4");
-        map.put("userid",213552);
-        map.put("activeTime",new Date());
-        map.put("signVerified",true);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("deviceid", "testid4");
+        map.put("userid", 213552);
+        map.put("activeTime", new Date());
+        map.put("signVerified", true);
         deviceIdRepository.save(map);
-       DeviceInfo info =deviceIdRepository.getDeviceInfo("testid4");
+        DeviceInfo info = deviceIdRepository.getDeviceInfo("testid4", 0);
 
         println(info);
         Assert.isNotNull(info);

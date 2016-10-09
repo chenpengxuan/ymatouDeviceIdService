@@ -19,8 +19,8 @@ public class WarmUpImpl implements WarmUp {
     @Path("/version")
     public String version() {
         return "{"
-                + "\"1.0.0\":\"2016-09-30 created\","
-                + "\"1.0.1\":\"2016-10-08 get method add param type\""
+                + "\"1.0.0\":\"2016-09-30.1 created\","
+                + "\"1.0.1\":\"2016-10-09.1 get method add param type\""
                 + "}";
     }
 

@@ -16,6 +16,7 @@ public class DeviceInfoResp extends BaseResponse {
     private int userId;
     private int signVerified;
     private String osversion;
+    private int clienttype;
 
     public int getUserId() {
         return userId;
@@ -54,5 +55,19 @@ public class DeviceInfoResp extends BaseResponse {
      */
     public void setOsversion(String osversion) {
         this.osversion = osversion;
+    }
+
+    /**
+     * @return the clienttype
+     */
+    public int getClienttype() {
+        return clienttype;
+    }
+
+    /**
+     * @param clienttype the clienttype to set
+     */
+    public void setClienttype(int clienttype) {
+        this.clienttype = clienttype;
     }
 }

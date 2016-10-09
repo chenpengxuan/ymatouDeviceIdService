@@ -147,6 +147,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                 resp.setUserId(deviceInfo.getUserid());
                 resp.setSignVerified(deviceInfo.getSignVerified());
                 resp.setOsversion(deviceInfo.getOsversion());
+                resp.setClienttype(deviceInfo.getClienttype());
 
                 response.setData(resp);
                 response.setMsg(deviceId + " exists");

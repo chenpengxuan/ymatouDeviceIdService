@@ -17,6 +17,7 @@ public class DeviceInfo extends PrintFriendliness {
     private int userid;
     private int signVerified;
     private String osversion;
+    private int clienttype;
 
 
     public int getSignVerified() {
@@ -57,5 +58,19 @@ public class DeviceInfo extends PrintFriendliness {
      */
     public void setOsversion(String osversion) {
         this.osversion = osversion;
+    }
+
+    /**
+     * @return the clienttype
+     */
+    public int getClienttype() {
+        return clienttype;
+    }
+
+    /**
+     * @param clienttype the clienttype to set
+     */
+    public void setClienttype(int clienttype) {
+        this.clienttype = clienttype;
     }
 }

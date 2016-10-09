@@ -37,7 +37,7 @@ public class DeviceIdFacadeTest extends WithoutDubboBaseTest {
         System.out.println(resp);
         assertEquals(0, resp.getCode());
 
-        resp = deviceIdResource.get(deviceId);
+        resp = deviceIdResource.get(deviceId, 0);
         System.out.println(resp);
 
         assertEquals(0, resp.getCode());
