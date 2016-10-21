@@ -168,6 +168,56 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         return response;
     }
 
+    @GET
+    @Path("/getFirst")
+    @Consumes("*/*")
+    @Override
+    public BaseNetCompatibleResp getFirst(@QueryParam("deviceId") String deviceId, @QueryParam("did") String did) {
+        logger.info("getFirst deviceId:" + deviceId + ", did:" + did);
+        BaseNetCompatibleResp response = new BaseNetCompatibleResp();
+        if (StringUtils.isEmpty(deviceId)) {
+            response.setCode(100);
+            response.setMsg("参数不能为空");
+
+            return response;
+        }
+
+        if (StringUtils.isEmpty(did)) {
+            response.setCode(100);
+            response.setMsg("参数不能为空");
+
+            return response;
+        }
+
+        try {
+            DeviceInfo deviceInfo = deviceIdRepository.getFirstDeviceInfo(deviceId, did);
+
+            if (deviceInfo == null) {
+                response.setCode(102);
+                response.setMsg(deviceId + " or " + did + "  not exists");
+            } else {
+                DeviceInfoResp resp = new DeviceInfoResp();
+                resp.setActiveTime(deviceInfo.getActiveTime());
+                resp.setUserId(deviceInfo.getUserid());
+                resp.setSignVerified(deviceInfo.getSignVerified());
+                resp.setOsversion(deviceInfo.getOsversion());
+                resp.setClienttype(deviceInfo.getClienttype());
+
+                response.setData(resp);
+                response.setMsg(deviceId + " or " + did + " exists");
+            }
+        } catch (Exception e) {
+
+            logger.error("getFirst deviceid exception:" + deviceId + ", did:" + did + "," + e.getMessage(), e);
+            response.setCode(101);
+            response.setMsg(e.getMessage());
+
+        }
+
+        logger.info("getFirst deviceid:" + deviceId + ", did:" + did + " resp:" + response.toString());
+        return response;
+    }
+
     @POST
     @Path("/update")
     @Consumes("application/json")

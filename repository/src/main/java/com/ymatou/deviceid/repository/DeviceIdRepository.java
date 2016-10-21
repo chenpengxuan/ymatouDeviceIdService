@@ -15,5 +15,7 @@ public interface DeviceIdRepository {
 
     DeviceInfo getDeviceInfo(String deviceId, int type);
 
+    DeviceInfo getFirstDeviceInfo(String deviceId, String did);
+
 
 }
