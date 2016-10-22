@@ -58,12 +58,14 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
     public DeviceInfo getFirstDeviceInfo(String deviceId, String did) {
 
         Criteria criteria = new Criteria();
-        criteria.orOperator(Criteria.where("deviceid").is(deviceId), Criteria.where("did").is(did));
 
-        Query query;
+        if ("00000000-0000-0000-0000-000000000000".equals(did) || "000000000000000".equals(did)) {
+            criteria = Criteria.where("deviceid").is(deviceId);
+        } else {
+            criteria.orOperator(Criteria.where("deviceid").is(deviceId), Criteria.where("did").is(did));
+        }
 
-        query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
-
+        Query query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
         return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
     }
 }
