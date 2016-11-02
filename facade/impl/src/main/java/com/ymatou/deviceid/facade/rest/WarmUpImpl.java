@@ -23,7 +23,8 @@ public class WarmUpImpl implements WarmUp {
                 + "\"1.0.1\":\"2016-10-09.1 get method add param type\","
                 + "\"1.0.2\":\"2016-10-09.3 add update method\","
                 + "\"1.0.3\":\"2016-10-21.1 add getFirst method\","
-                + "\"1.0.4\":\"2016-10-22.1 turn getFirst method when did=00000000-0000-0000-0000-000000000000\""
+                + "\"1.0.4\":\"2016-10-22.1 turn getFirst method when did=00000000-0000-0000-0000-000000000000\","
+                + "\"1.0.5\":\"2016-11-02.1 add updateTime\""
                 + "}";
     }
 

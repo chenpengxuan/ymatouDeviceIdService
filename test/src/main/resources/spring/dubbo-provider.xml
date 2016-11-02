@@ -47,7 +47,7 @@
 
     <dubbo:application name="tradingquery"/>
 
-    <dubbo:registry address="zookeeper://${dubbo.zoo}"/>
+    <dubbo:registry address="zookeeper://${dubbo.zoo}" timeout="15000"/>
 
     <!--  关闭没有服务提供者是报错 -->
     <dubbo:consumer check="false"/>

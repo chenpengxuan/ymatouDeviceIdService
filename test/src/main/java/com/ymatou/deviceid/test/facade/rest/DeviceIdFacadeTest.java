@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,7 +49,7 @@ public class DeviceIdFacadeTest extends BaseTest {
     }
 
     @Test
-    public void testUpdateDeviceId() {
+    public void testUpdateDeviceId() throws InterruptedException {
         String deviceId = UUID.randomUUID().toString();
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("deviceid", deviceId);
@@ -81,6 +80,8 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         assertNotNull(updateResp);
         assertEquals(0, updateResp.getCode());
+
+        Thread.sleep(300);
 
         BaseNetCompatibleResp respAfter = deviceIdResource.get(deviceId, 1);
         assertEquals(0, respAfter.getCode());
@@ -154,6 +155,8 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         BaseNetCompatibleResp resp = deviceIdResource.saveDeviceId(map);
         assertEquals(0, resp.getCode());
+
+        Thread.sleep(100);
 
         resp = deviceIdResource.get(deviceId, 1);
         assertEquals(0, resp.getCode());

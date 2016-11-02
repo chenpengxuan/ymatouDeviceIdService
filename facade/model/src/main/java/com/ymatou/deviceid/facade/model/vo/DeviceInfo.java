@@ -39,6 +39,7 @@ public class DeviceInfo extends PrintFriendliness {
     private int signVerified;
     private String appname;
     private Date activeTime;
+    private Date updateTime;
 
 
     public int getSignVerified() {
@@ -345,5 +346,19 @@ public class DeviceInfo extends PrintFriendliness {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the updateTime
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime the updateTime to set
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

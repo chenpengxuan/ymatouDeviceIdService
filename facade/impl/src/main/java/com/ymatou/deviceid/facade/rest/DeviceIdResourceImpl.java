@@ -65,6 +65,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             logger.info(deviceId + ",md5verfied:" + verified);
             dataMap.put("signVerified", verified);
             dataMap.put("activeTime", new Date());
+            dataMap.put("updateTime", new Date());
 
             deviceIdRepository.insert(dataMap);
             response.setBcode(0);
@@ -250,6 +251,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             } else if (deviceInfo.getUserid() <= 0) {
                 logger.info("deviceId:{} have not userid, update userid.", req.getDeviceid());
                 deviceInfo.setUserid(req.getUserid());
+                deviceInfo.setUpdateTime(new Date());
                 deviceIdRepository.save(deviceInfo);
             }
             response.setBcode(0);
@@ -279,6 +281,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         deviceInfo.setDid(req.getDid());
         deviceInfo.setUserid(req.getUserid());
         deviceInfo.setActiveTime(new Date());
+        deviceInfo.setUpdateTime(new Date());
         deviceInfo.setSignVerified(MD5VerifiedUnknow);
 
         deviceIdRepository.save(deviceInfo);
