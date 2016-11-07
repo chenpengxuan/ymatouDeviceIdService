@@ -1,15 +1,13 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 package com.ymatou.deviceid.facade.rest;
 
 
-import com.ymatou.deviceid.facade.model.ErrorCode;
 import com.ymatou.deviceid.facade.model.PrintFriendliness;
-import com.ymatou.deviceid.facade.model.resp.BaseResponse;
 
 /**
  * 与.NET http客户端适配的响应
@@ -30,7 +28,7 @@ public class BaseNetCompatibleResp extends PrintFriendliness {
     private String msg;
 
     // 业务报文体
-    private BaseResponse data;
+    private Object data;
 
     public int getCode() {
         return code;
@@ -57,36 +55,11 @@ public class BaseNetCompatibleResp extends PrintFriendliness {
         this.msg = msg;
     }
 
-    public BaseResponse getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(BaseResponse data) {
+    public void setData(Object data) {
         this.data = data;
     }
-
-    public static BaseNetCompatibleResp newInstance(BaseResponse baseResp) {
-        assert baseResp != null;
-        BaseNetCompatibleResp restResp = new BaseNetCompatibleResp();
-        restResp.setData(baseResp);
-        restResp.setMsg(baseResp.getErrorMessage());
-        if (baseResp.isSuccess()) {
-            restResp.setCode(200); // 成功
-        } else {
-            ErrorCode errorCode = baseResp.getErrorCode() == null ? ErrorCode.UNKNOWN : baseResp.getErrorCode();
-            restResp.setBcode(errorCode.getCode());
-            switch (errorCode) {
-                case ILLEGAL_ARGUMENT:
-                    restResp.setCode(400); // 参数错误
-                    break;
-                case UNKNOWN:
-                    restResp.setCode(500); // 未知异常
-                    break;
-                default:
-                    restResp.setCode(201); // 业务因明确原因处理失败
-            }
-        }
-        return restResp;
-    }
-
 }

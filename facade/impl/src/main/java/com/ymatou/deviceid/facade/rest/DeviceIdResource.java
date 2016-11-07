@@ -14,5 +14,7 @@ public interface DeviceIdResource {
 
     BaseNetCompatibleResp getFirst(String deviceId, String did);
 
+    BaseNetCompatibleResp getList(int userid, int type, int limit);
+
     BaseNetCompatibleResp updateDeviceId(UpdateDeviceIdReq req);
 }

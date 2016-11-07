@@ -1,5 +1,7 @@
 package com.ymatou.deviceid.facade.rest;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.ymatou.deviceid.facade.model.PrintFriendliness;
 import com.ymatou.deviceid.facade.model.req.UpdateDeviceIdReq;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
+import com.ymatou.deviceid.facade.model.resp.DeviceInfoSimple;
 import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
 import com.ymatou.deviceid.infrastructure.config.BizConfig;
 import com.ymatou.deviceid.repository.DeviceIdRepository;
@@ -166,6 +169,73 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         }
 
         logger.info("getdeviceId:" + deviceId + " resp:" + response.toString());
+        return response;
+    }
+
+    @GET
+    @Path("/getList")
+    @Consumes("*/*")
+    @Override
+    public BaseNetCompatibleResp getList(@QueryParam("userid") int userid, @QueryParam("type") int type,
+            @QueryParam("limit") int limit) {
+
+        long startTime = System.currentTimeMillis();
+        logger.info("getList userid:{}, type:{}, limit:{}.", userid, type, limit);
+
+        BaseNetCompatibleResp response = new BaseNetCompatibleResp();
+        if (userid <= 0) {
+            response.setCode(100);
+            response.setMsg("userid必须大于零");
+
+            return response;
+        }
+
+        if (type != 0 && type != 1) {
+            response.setCode(100);
+            response.setMsg("type必须是0或者1");
+
+            return response;
+        }
+
+        if (limit < 1 || limit > 20) {
+            response.setCode(100);
+            response.setMsg("limit必须是1到20之间的数");
+
+            return response;
+        }
+
+
+        try {
+            List<DeviceInfo> deviceInfoList = deviceIdRepository.getDeviceInfoList(userid, type, limit);
+
+            if (deviceInfoList == null || deviceInfoList.isEmpty()) {
+                response.setCode(102);
+                response.setMsg(userid + " not exists");
+            } else {
+
+                List<DeviceInfoSimple> lstDeviceInfo = new ArrayList<DeviceInfoSimple>();
+                for (DeviceInfo deviceInfo : deviceInfoList) {
+                    DeviceInfoSimple resp = new DeviceInfoSimple();
+                    resp.setDeviceid(deviceInfo.getDeviceid());
+                    resp.setDid(deviceInfo.getDid());
+                    resp.setActiveTime(deviceInfo.getActiveTime());
+                    resp.setSignVerified(deviceInfo.getSignVerified());
+
+                    lstDeviceInfo.add(resp);
+                }
+
+                response.setData(lstDeviceInfo);
+                response.setMsg(userid + " exists");
+            }
+        } catch (Exception e) {
+
+            logger.error("getList deviceid exception:" + userid + "," + e.getMessage(), e);
+            response.setCode(101);
+            response.setMsg(e.getMessage());
+        }
+
+        long consumedTime = System.currentTimeMillis() - startTime;
+        logger.info("getList userid:{}, consume:{}ms.", userid, consumedTime);
         return response;
     }
 

@@ -1,6 +1,7 @@
 package com.ymatou.deviceid.repository;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -67,5 +68,27 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
 
         Query query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
         return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.ymatou.deviceid.repository.DeviceIdRepository#getDeviceInfoList(int, int, int)
+     */
+    @Override
+    public List<DeviceInfo> getDeviceInfoList(int userId, int type, int limit) {
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("userid").is(userId));
+
+        Query query;
+        if (type == BY_ACTIVETIME_DESC) {
+            query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "activeTime"));
+        } else {
+            query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
+        }
+
+        query.limit(limit);
+
+        return mongoTemplate.find(query, DeviceInfo.class, CollectionName);
     }
 }

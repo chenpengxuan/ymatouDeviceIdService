@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ymatou.deviceid.facade.model.req.UpdateDeviceIdReq;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
+import com.ymatou.deviceid.facade.model.resp.DeviceInfoSimple;
 import com.ymatou.deviceid.facade.rest.BaseNetCompatibleResp;
 import com.ymatou.deviceid.facade.rest.DeviceIdResource;
+import com.ymatou.deviceid.repository.DeviceIdRepository;
 import com.ymatou.deviceid.test.BaseTest;
 
 /**
@@ -23,6 +26,9 @@ public class DeviceIdFacadeTest extends BaseTest {
 
     @Autowired
     DeviceIdResource deviceIdResource;
+
+    @Autowired
+    DeviceIdRepository deviceIdRepository;
 
     @Test
     public void testSaveDeviceId() throws InterruptedException {
@@ -225,4 +231,44 @@ public class DeviceIdFacadeTest extends BaseTest {
         assertEquals(100, updateResp.getCode());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetList() throws InterruptedException {
+        String deviceId = UUID.randomUUID().toString();
+        int userId = 10;
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("deviceid", deviceId);
+        map.put("userid", userId);
+        map.put("activeTime", new Date());
+        map.put("signVerified", 2);
+        deviceIdRepository.insert(map);
+
+        Thread.sleep(200);
+
+        BaseNetCompatibleResp resp = deviceIdResource.getList(userId, 1, 1);
+        assertEquals(0, resp.getCode());
+        assertEquals(0, resp.getBcode());
+
+        List<DeviceInfoSimple> deviceInfoList = (List<DeviceInfoSimple>) resp.getData();
+        assertNotNull(deviceInfoList);
+        assertEquals(deviceId, deviceInfoList.get(0).getDeviceid());
+
+        resp = deviceIdResource.getList(userId, 1, 2);
+        deviceInfoList = (List<DeviceInfoSimple>) resp.getData();
+        assertNotNull(deviceInfoList);
+        assertEquals(2, deviceInfoList.size());
+
+        resp = deviceIdResource.getList(-1, 1, 2);
+        assertEquals(100, resp.getCode());
+
+        resp = deviceIdResource.getList(userId, 10, 2);
+        assertEquals(100, resp.getCode());
+
+        resp = deviceIdResource.getList(userId, 1, 21);
+        assertEquals(100, resp.getCode());
+
+        resp = deviceIdResource.getList(userId, 1, -1);
+        assertEquals(100, resp.getCode());
+    }
 }

@@ -48,7 +48,7 @@
 
     <dubbo:application name="deviceid.iapi.ymatou.com"/>
 
-    <dubbo:registry address="zookeeper://${dubbo.zoo}"/>
+    <dubbo:registry address="zookeeper://${dubbo.zoo}" timeout="30000"/>
 
     <!--  关闭没有服务提供者是报错 -->
     <dubbo:consumer check="false"/>
