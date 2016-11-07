@@ -242,6 +242,7 @@ public class DeviceIdFacadeTest extends BaseTest {
         map.put("userid", userId);
         map.put("activeTime", new Date());
         map.put("signVerified", 2);
+        map.put("clienttype", 2);
         deviceIdRepository.insert(map);
 
         Thread.sleep(200);
@@ -253,6 +254,7 @@ public class DeviceIdFacadeTest extends BaseTest {
         List<DeviceInfoSimple> deviceInfoList = (List<DeviceInfoSimple>) resp.getData();
         assertNotNull(deviceInfoList);
         assertEquals(deviceId, deviceInfoList.get(0).getDeviceid());
+        assertEquals(2, deviceInfoList.get(0).getClienttype());
 
         resp = deviceIdResource.getList(userId, 1, 2);
         deviceInfoList = (List<DeviceInfoSimple>) resp.getData();

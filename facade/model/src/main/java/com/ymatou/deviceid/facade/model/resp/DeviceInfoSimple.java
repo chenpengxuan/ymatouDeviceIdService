@@ -16,6 +16,7 @@ public class DeviceInfoSimple extends BaseResponse {
     private int signVerified;
     private String deviceid;
     private String did;
+    private int clienttype;
 
     /**
      * @return the activeTime
@@ -71,6 +72,20 @@ public class DeviceInfoSimple extends BaseResponse {
      */
     public void setDid(String did) {
         this.did = did;
+    }
+
+    /**
+     * @return the clienttype
+     */
+    public int getClienttype() {
+        return clienttype;
+    }
+
+    /**
+     * @param clienttype the clienttype to set
+     */
+    public void setClienttype(int clienttype) {
+        this.clienttype = clienttype;
     }
 
 

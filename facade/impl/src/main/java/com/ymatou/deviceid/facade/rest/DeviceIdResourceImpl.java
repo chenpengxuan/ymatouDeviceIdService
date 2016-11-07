@@ -220,6 +220,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                     resp.setDid(deviceInfo.getDid());
                     resp.setActiveTime(deviceInfo.getActiveTime());
                     resp.setSignVerified(deviceInfo.getSignVerified());
+                    resp.setClienttype(deviceInfo.getClienttype());
 
                     lstDeviceInfo.add(resp);
                 }
