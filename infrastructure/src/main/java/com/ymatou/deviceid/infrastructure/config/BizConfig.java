@@ -1,7 +1,7 @@
 /*
  *
- *  (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
- *  All rights reserved.
+ * (C) Copyright 2016 Ymatou (http://www.ymatou.com/).
+ * All rights reserved.
  *
  */
 
@@ -22,6 +22,8 @@ public class BizConfig {
 
     private String md5key;
 
+    private String verifiedDate;
+
     @DisconfFileItem(name = "md5key")
     public String getMd5key() {
         return md5key;
@@ -29,6 +31,21 @@ public class BizConfig {
 
     public void setMd5key(String md5key) {
         this.md5key = md5key;
+    }
+
+    /**
+     * @return the verifiedDate
+     */
+    @DisconfFileItem(name = "verifiedDate")
+    public String getVerifiedDate() {
+        return verifiedDate;
+    }
+
+    /**
+     * @param verifiedDate the verifiedDate to set
+     */
+    public void setVerifiedDate(String verifiedDate) {
+        this.verifiedDate = verifiedDate;
     }
 
 }

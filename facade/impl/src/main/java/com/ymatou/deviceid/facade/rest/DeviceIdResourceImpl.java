@@ -1,6 +1,7 @@
 package com.ymatou.deviceid.facade.rest;
 
 import java.util.List;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -129,6 +130,31 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
     }
 
+    /**
+     * 获取验签结果
+     * 
+     * @param signVerified
+     * @param activeTime
+     * @return
+     */
+    private int getSignVerified(int signVerified, Date activeTime) {
+        if (signVerified == MD5VerifiedOK) {
+            return MD5VerifiedOK;
+        }
+
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date veifiedDate = simpleDateFormat.parse(bizConfig.getVerifiedDate());
+            if (activeTime.before(veifiedDate))
+                return MD5VerifiedOK;
+            else
+                return signVerified;
+        } catch (Exception e) {
+            logger.error("getSignVerified exception", e);
+            return signVerified;
+        }
+    }
+
     @GET
     @Path("/get")
     @Consumes("*/*")
@@ -153,7 +179,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                 DeviceInfoResp resp = new DeviceInfoResp();
                 resp.setActiveTime(deviceInfo.getActiveTime());
                 resp.setUserId(deviceInfo.getUserid());
-                resp.setSignVerified(deviceInfo.getSignVerified());
+                resp.setSignVerified(getSignVerified(deviceInfo.getSignVerified(), deviceInfo.getActiveTime()));
                 resp.setOsversion(deviceInfo.getOsversion());
                 resp.setClienttype(deviceInfo.getClienttype());
 
@@ -219,7 +245,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                     resp.setDeviceid(deviceInfo.getDeviceid());
                     resp.setDid(deviceInfo.getDid());
                     resp.setActiveTime(deviceInfo.getActiveTime());
-                    resp.setSignVerified(deviceInfo.getSignVerified());
+                    resp.setSignVerified(getSignVerified(deviceInfo.getSignVerified(), deviceInfo.getActiveTime()));
                     resp.setClienttype(deviceInfo.getClienttype());
 
                     lstDeviceInfo.add(resp);
@@ -271,7 +297,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
                 DeviceInfoResp resp = new DeviceInfoResp();
                 resp.setActiveTime(deviceInfo.getActiveTime());
                 resp.setUserId(deviceInfo.getUserid());
-                resp.setSignVerified(deviceInfo.getSignVerified());
+                resp.setSignVerified(getSignVerified(deviceInfo.getSignVerified(), deviceInfo.getActiveTime()));
                 resp.setOsversion(deviceInfo.getOsversion());
                 resp.setClienttype(deviceInfo.getClienttype());
 
