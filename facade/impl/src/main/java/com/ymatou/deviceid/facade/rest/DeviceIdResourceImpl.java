@@ -377,9 +377,7 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         deviceInfo.setDeviceid(req.getDeviceid());
         deviceInfo.setDid(req.getDid());
         deviceInfo.setUserid(req.getUserid());
-        deviceInfo.setActiveTime(new Date());
         deviceInfo.setUpdateTime(new Date());
-        deviceInfo.setSignVerified(MD5VerifiedUnknow);
 
         deviceIdRepository.save(deviceInfo);
     }

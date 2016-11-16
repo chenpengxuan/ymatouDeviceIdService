@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ymatou.deviceid.facade.model.req.UpdateDeviceIdReq;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoResp;
 import com.ymatou.deviceid.facade.model.resp.DeviceInfoSimple;
+import com.ymatou.deviceid.facade.model.vo.DeviceInfo;
 import com.ymatou.deviceid.facade.rest.BaseNetCompatibleResp;
 import com.ymatou.deviceid.facade.rest.DeviceIdResource;
 import com.ymatou.deviceid.repository.DeviceIdRepository;
@@ -65,9 +66,12 @@ public class DeviceIdFacadeTest extends BaseTest {
         map.put("network", "wifi");
         map.put("appname", "buyer");
         map.put("osversion", "ios10.1");
+        map.put("signVerified", 2);
 
         BaseNetCompatibleResp resp = deviceIdResource.saveDeviceId(map);
         assertEquals(0, resp.getCode());
+
+        Thread.sleep(100);
 
         resp = deviceIdResource.get(deviceId, 1);
         assertEquals(0, resp.getCode());
@@ -89,14 +93,10 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         Thread.sleep(300);
 
-        BaseNetCompatibleResp respAfter = deviceIdResource.get(deviceId, 1);
-        assertEquals(0, respAfter.getCode());
-        assertNotNull(respAfter.getData());
-
-        DeviceInfoResp deviceInfoAfter = (DeviceInfoResp) respAfter.getData();
+        DeviceInfo deviceInfoAfter = deviceIdRepository.getDeviceInfoByDid(updateDeviceIdReq.getDid(), 1);
         assertNotNull(deviceInfoAfter);
-        assertEquals(1, deviceInfoAfter.getSignVerified());
-        assertEquals(20, deviceInfoAfter.getUserId());
+        assertEquals(2, deviceInfoAfter.getSignVerified());
+        assertEquals(20, deviceInfoAfter.getUserid());
         assertEquals("ios10.1", deviceInfoAfter.getOsversion());
     }
 
@@ -215,7 +215,7 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         DeviceInfoResp deviceInfoAfter = (DeviceInfoResp) respAfter.getData();
         assertNotNull(deviceInfoAfter);
-        assertEquals(1, deviceInfoAfter.getSignVerified());
+        assertEquals(0, deviceInfoAfter.getSignVerified());
         assertEquals(20, deviceInfoAfter.getUserId());
     }
 

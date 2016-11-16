@@ -56,6 +56,21 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
     }
 
     @Override
+    public DeviceInfo getDeviceInfoByDid(String did, int type) {
+
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("did").is(did));
+
+        Query query;
+        if (type == BY_ACTIVETIME_DESC) {
+            query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "activeTime"));
+        } else {
+            query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
+        }
+        return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
+    }
+
+    @Override
     public DeviceInfo getFirstDeviceInfo(String deviceId, String did) {
 
         Criteria criteria = new Criteria();
