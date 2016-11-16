@@ -125,7 +125,6 @@ public class DeviceIdFacadeTest extends BaseTest {
         assertNotNull(deviceInfoBefore);
         assertEquals(0, deviceInfoBefore.getUserId());
 
-
         UpdateDeviceIdReq updateDeviceIdReq = new UpdateDeviceIdReq();
         updateDeviceIdReq.setDeviceid(deviceId);
         updateDeviceIdReq.setDid(UUID.randomUUID().toString());
@@ -145,6 +144,7 @@ public class DeviceIdFacadeTest extends BaseTest {
         assertNotNull(deviceInfoAfter);
         assertEquals(1, deviceInfoAfter.getSignVerified());
         assertEquals(20, deviceInfoAfter.getUserId());
+        assertEquals(deviceInfoBefore.getActiveTime(), deviceInfoAfter.getActiveTime());
     }
 
     @Test
