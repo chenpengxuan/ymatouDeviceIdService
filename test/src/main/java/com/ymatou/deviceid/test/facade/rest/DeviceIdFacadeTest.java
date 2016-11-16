@@ -215,7 +215,7 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         DeviceInfoResp deviceInfoAfter = (DeviceInfoResp) respAfter.getData();
         assertNotNull(deviceInfoAfter);
-        assertEquals(0, deviceInfoAfter.getSignVerified());
+        assertEquals(1, deviceInfoAfter.getSignVerified());
         assertEquals(20, deviceInfoAfter.getUserId());
     }
 

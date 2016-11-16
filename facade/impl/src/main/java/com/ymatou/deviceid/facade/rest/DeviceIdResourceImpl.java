@@ -372,6 +372,8 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         if (oldDeviceInfo != null) {
             deviceInfo = oldDeviceInfo;
             deviceInfo.setId(null);
+        } else {
+            deviceInfo.setSignVerified(MD5VerifiedUnknow);
         }
 
         deviceInfo.setDeviceid(req.getDeviceid());
