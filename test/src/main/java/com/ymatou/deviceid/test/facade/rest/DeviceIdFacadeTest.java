@@ -34,11 +34,14 @@ public class DeviceIdFacadeTest extends BaseTest {
     @Test
     public void testSaveDeviceId() throws InterruptedException {
         String deviceId = UUID.randomUUID().toString();
+        String did = UUID.randomUUID().toString();
         HashMap<String, Object> map = new HashMap<String, Object>();
+
         map.put("deviceid", deviceId);
+        map.put("did", did);
         map.put("userid", 10);
         map.put("activeTime", new Date());
-        map.put("signVerified", 1);
+        map.put("signVerified", 2);
 
         BaseNetCompatibleResp resp = deviceIdResource.saveDeviceId(map);
 
@@ -53,6 +56,10 @@ public class DeviceIdFacadeTest extends BaseTest {
 
         assertEquals(0, resp.getCode());
         assertNotNull(resp.getData());
+
+        // 同样的设备号再做一次保存，不插入数据库，返回成功
+        resp = deviceIdResource.saveDeviceId(map);
+        assertEquals(0, resp.getCode());
     }
 
     @Test

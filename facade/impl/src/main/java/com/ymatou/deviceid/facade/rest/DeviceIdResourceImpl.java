@@ -62,8 +62,10 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
         BaseNetCompatibleResp response = new BaseNetCompatibleResp();
         String deviceId = null;
+        String did = null;
         try {
             deviceId = (String) dataMap.get("deviceid");
+            did = (String) dataMap.get("did");
 
             int verified = verifyMD5(dataMap);
             logger.info(deviceId + ",md5verfied:" + verified);
@@ -71,7 +73,12 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             dataMap.put("activeTime", new Date());
             dataMap.put("updateTime", new Date());
 
-            deviceIdRepository.insert(dataMap);
+            // 如果没有已经验证的设备，则插入，否则不做任何处理
+            DeviceInfo validateDeviceInfo = deviceIdRepository.getValidateDeviceInfo(deviceId, did);
+            if (validateDeviceInfo == null) {
+                deviceIdRepository.insert(dataMap);
+            }
+
             response.setBcode(0);
             response.setCode(0);
             response.setMsg("saved ok");

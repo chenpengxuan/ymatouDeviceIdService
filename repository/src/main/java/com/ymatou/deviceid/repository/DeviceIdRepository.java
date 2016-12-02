@@ -36,4 +36,14 @@ public interface DeviceIdRepository {
      * @return
      */
     DeviceInfo getDeviceInfoByDid(String did, int type);
+
+
+    /**
+     * 获取到已经验证的设备号信息
+     * 
+     * @param deviceId
+     * @param did
+     * @return
+     */
+    DeviceInfo getValidateDeviceInfo(String deviceId, String did);
 }

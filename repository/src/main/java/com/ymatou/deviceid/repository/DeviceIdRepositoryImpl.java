@@ -25,6 +25,9 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
     // 取出最新的DeviceId
     private final int BY_ACTIVETIME_DESC = 1;
 
+    // 设备验证通过标识
+    private final int MD5VerifiedOK = 2;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -67,6 +70,25 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
         } else {
             query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
         }
+        return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
+    }
+
+    /**
+     * 获取到已经验证的设备号信息
+     * 
+     * @param deviceId
+     * @param did
+     * @return
+     */
+    @Override
+    public DeviceInfo getValidateDeviceInfo(String deviceId, String did) {
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("deviceid").is(deviceId),
+                Criteria.where("did").is(did),
+                Criteria.where("signVerified").is(MD5VerifiedOK));
+
+        Query query = new Query(criteria);
+
         return mongoTemplate.findOne(query, DeviceInfo.class, CollectionName);
     }
 
