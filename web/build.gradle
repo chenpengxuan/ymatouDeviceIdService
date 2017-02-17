@@ -8,6 +8,7 @@ jar {
 	baseName = 'deviceid-web'
 
 	exclude('logback-test.xml')
+	exclude('logback.xml')
 	exclude{ it.name.endsWith('.properties');}
 }
 
@@ -32,14 +33,9 @@ task copyJars(type: Copy,dependsOn:jar) {
 	into "$buildDir/dist/lib"
 }
 
-//复制配置
-task copyConfig(type: Copy){
-	from "$projectDir/src/main/resources/logback.xml"
-	into "$buildDir/dist/conf/"
-}
 
 //打包发布 发布为：gradle release 默认位置为：build/distributions
-task release(type: Zip,dependsOn:[copyScript,copyJars,copyConfig]) {
+task release(type: Zip,dependsOn:[copyScript,copyJars]) {
 	archiveName="deviceid-web.zip"
 	from "$buildDir/dist"
 }

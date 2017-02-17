@@ -273,6 +273,69 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
         return response;
     }
 
+
+    @GET
+    @Path("/getUserIdList")
+    @Consumes("*/*")
+    @Override
+    public BaseNetCompatibleResp getUserIdList(@QueryParam("deviceId") String deviceId, @QueryParam("type") int type,
+            @QueryParam("limit") int limit) {
+        long startTime = System.currentTimeMillis();
+        logger.info("getUserIdList deviceId:{}, type:{}, limit:{}.", deviceId, type, limit);
+
+        BaseNetCompatibleResp response = new BaseNetCompatibleResp();
+        if (org.apache.commons.lang3.StringUtils.isEmpty(deviceId)) {
+            response.setCode(100);
+            response.setMsg("deviceId不能为空");
+
+            return response;
+        }
+
+        if (type != 0 && type != 1) {
+            response.setCode(100);
+            response.setMsg("type必须是0或者1");
+
+            return response;
+        }
+
+        if (limit < 1 || limit > 20) {
+            response.setCode(100);
+            response.setMsg("limit必须是1到20之间的数");
+
+            return response;
+        }
+
+
+        try {
+            List<DeviceInfo> deviceInfoList = deviceIdRepository.getDeviceInfoList(deviceId, type, limit);
+
+            if (deviceInfoList == null || deviceInfoList.isEmpty()) {
+                response.setCode(102);
+                response.setMsg(deviceId + " not exists");
+            } else {
+
+                List<Integer> userIdList = new ArrayList<>();
+                for (DeviceInfo deviceInfo : deviceInfoList) {
+                    if (deviceInfo.getUserid() > 0) {
+                        userIdList.add(deviceInfo.getUserid());
+                    }
+                }
+
+                response.setData(userIdList);
+                response.setMsg(deviceId + " exists");
+            }
+        } catch (Exception e) {
+
+            logger.error("getUserIdList exception:" + deviceId + "," + e.getMessage(), e);
+            response.setCode(101);
+            response.setMsg(e.getMessage());
+        }
+
+        long consumedTime = System.currentTimeMillis() - startTime;
+        logger.info("getUserIdList deviceId:{}, consume:{}ms.", deviceId, consumedTime);
+        return response;
+    }
+
     @GET
     @Path("/getFirst")
     @Consumes("*/*")

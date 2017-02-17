@@ -46,4 +46,14 @@ public interface DeviceIdRepository {
      * @return
      */
     DeviceInfo getValidateDeviceInfo(String deviceId, String did);
+
+    /**
+     * 根据设备号获取到设备号列表
+     * 
+     * @param deviceId 设备号
+     * @param type 排序类型
+     * @param limit 返回数据的最大条数
+     * @return
+     */
+    List<DeviceInfo> getDeviceInfoList(String deviceId, int type, int limit);
 }

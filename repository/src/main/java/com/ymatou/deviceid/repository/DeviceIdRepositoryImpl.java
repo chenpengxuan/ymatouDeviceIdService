@@ -128,4 +128,21 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
 
         return mongoTemplate.find(query, DeviceInfo.class, CollectionName);
     }
+
+    @Override
+    public List<DeviceInfo> getDeviceInfoList(String deviceId, int type, int limit) {
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("deviceid").is(deviceId),
+                Criteria.where("signVerified").is(MD5VerifiedOK));
+
+        Query query;
+        if (type == BY_ACTIVETIME_DESC) {
+            query = new Query(criteria).with(new Sort(Sort.Direction.DESC, "activeTime"));
+        } else {
+            query = new Query(criteria).with(new Sort(Sort.Direction.ASC, "activeTime"));
+        }
+        query.limit(limit);
+
+        return mongoTemplate.find(query, DeviceInfo.class, CollectionName);
+    }
 }

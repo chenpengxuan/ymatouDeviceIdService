@@ -281,4 +281,61 @@ public class DeviceIdFacadeTest extends BaseTest {
         resp = deviceIdResource.getList(userId, 1, -1);
         assertEquals(100, resp.getCode());
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testUserIdList() throws InterruptedException {
+        String deviceId = UUID.randomUUID().toString();
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("deviceid", deviceId);
+        map.put("userid", 10);
+        map.put("activeTime", new Date());
+        map.put("signVerified", 2);
+        map.put("clienttype", 2);
+        deviceIdRepository.insert(map);
+
+        map.put("userid", 20);
+        map.put("activeTime", new Date());
+        deviceIdRepository.insert(map);
+
+        map.put("userid", 30);
+        map.put("activeTime", new Date());
+        map.put("signVerified", 1); // 这条设备号信息没有验证通过，不会被查出来
+        deviceIdRepository.insert(map);
+
+        Thread.sleep(100);
+
+        BaseNetCompatibleResp resp = deviceIdResource.getUserIdList(deviceId, 1, 10);
+        assertEquals(0, resp.getCode());
+        assertEquals(0, resp.getBcode());
+
+        List<Integer> userList = (List<Integer>) resp.getData();
+        assertNotNull(userList);
+        assertEquals(2, userList.size());
+        assertEquals(20, userList.get(0).intValue());
+        assertEquals(10, userList.get(1).intValue());
+
+        resp = deviceIdResource.getUserIdList(deviceId, 0, 10);
+        assertEquals(0, resp.getCode());
+        assertEquals(0, resp.getBcode());
+
+        userList = (List<Integer>) resp.getData();
+        assertNotNull(userList);
+        assertEquals(2, userList.size());
+        assertEquals(10, userList.get(0).intValue());
+        assertEquals(20, userList.get(1).intValue());
+
+        resp = deviceIdResource.getUserIdList(deviceId + "not exist", 0, 10);
+        assertEquals(102, resp.getCode());
+        assertEquals(0, resp.getBcode());
+
+        resp = deviceIdResource.getUserIdList(deviceId + "not exist", 3, 10);
+        assertEquals(100, resp.getCode());
+        assertEquals("type必须是0或者1", resp.getMsg());
+
+        resp = deviceIdResource.getUserIdList(deviceId + "not exist", 1, 30);
+        assertEquals(100, resp.getCode());
+        assertEquals("limit必须是1到20之间的数", resp.getMsg());
+    }
 }
