@@ -307,7 +307,8 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
 
 
         try {
-            List<DeviceInfo> deviceInfoList = deviceIdRepository.getDeviceInfoList(deviceId, type, limit);
+            // 此处多取10个，如果有userId重复，取出后过滤
+            List<DeviceInfo> deviceInfoList = deviceIdRepository.getDeviceInfoList(deviceId, type, limit + 10);
 
             if (deviceInfoList == null || deviceInfoList.isEmpty()) {
                 response.setCode(102);
@@ -315,9 +316,17 @@ public class DeviceIdResourceImpl implements DeviceIdResource {
             } else {
 
                 List<Integer> userIdList = new ArrayList<>();
+                int userCount = 0;
                 for (DeviceInfo deviceInfo : deviceInfoList) {
-                    if (deviceInfo.getUserid() > 0) {
+
+                    // 循环进行去重处理
+                    if (deviceInfo.getUserid() > 0 && !userIdList.contains(deviceInfo.getUserid())) {
+                        userCount++;
                         userIdList.add(deviceInfo.getUserid());
+                    }
+
+                    if (userCount == limit) {
+                        break;
                     }
                 }
 

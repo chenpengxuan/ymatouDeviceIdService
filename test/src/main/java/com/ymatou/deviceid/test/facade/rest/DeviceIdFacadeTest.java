@@ -299,6 +299,11 @@ public class DeviceIdFacadeTest extends BaseTest {
         map.put("activeTime", new Date());
         deviceIdRepository.insert(map);
 
+        // 模拟重复数据
+        map.put("userid", 20);
+        map.put("activeTime", new Date());
+        deviceIdRepository.insert(map);
+
         map.put("userid", 30);
         map.put("activeTime", new Date());
         map.put("signVerified", 1); // 这条设备号信息没有验证通过，不会被查出来
