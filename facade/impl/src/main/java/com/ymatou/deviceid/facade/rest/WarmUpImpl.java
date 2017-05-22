@@ -36,7 +36,8 @@ public class WarmUpImpl implements WarmUp {
                 + "\"1.0.8\":\"2016-11-16.3 modify updateDeviceId api when deviceid exist and userid not equals req\","
                 + "\"1.0.9\":\"2016-12-02.1 modify save api ensure idempotent\","
                 + "\"1.0.10\":\"2017-02-21.1 add getUserIdList api\","
-                + "\"1.0.11\":\"2017-03-06.1 change dubbo serialization to hession\""
+                + "\"1.0.11\":\"2017-03-06.1 change dubbo serialization to hession\","
+                + "\"1.0.12\":\"2017-05-22.1 api get compatible Upper deviceId\""
                 + "}";
     }
 

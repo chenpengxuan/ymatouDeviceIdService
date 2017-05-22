@@ -57,6 +57,11 @@ public class DeviceIdFacadeTest extends BaseTest {
         assertEquals(0, resp.getCode());
         assertNotNull(resp.getData());
 
+        BaseNetCompatibleResp resp2 = deviceIdResource.get(deviceId.toUpperCase(), 0);
+
+        assertEquals(0, resp2.getCode());
+        assertNotNull(resp2.getData());
+
         // 同样的设备号再做一次保存，不插入数据库，返回成功
         resp = deviceIdResource.saveDeviceId(map);
         assertEquals(0, resp.getCode());

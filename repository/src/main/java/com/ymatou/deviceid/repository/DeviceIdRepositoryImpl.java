@@ -1,5 +1,6 @@
 package com.ymatou.deviceid.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,9 +46,19 @@ public class DeviceIdRepositoryImpl implements DeviceIdRepository {
 
     @Override
     public DeviceInfo getDeviceInfo(String deviceId, int type) {
+        Criteria criteria;
 
-        Criteria criteria = new Criteria();
-        criteria.andOperator(Criteria.where("deviceid").is(deviceId));
+        // 如果deviceId转成小写后与原值不同，则采用IN的方式进行兼容性处理
+        String deviceIdLower = deviceId.toLowerCase();
+        if (!deviceIdLower.equals(deviceId)) {
+            List<String> deviceIdList = new ArrayList<>();
+            deviceIdList.add(deviceId);
+            deviceIdList.add(deviceIdLower);
+
+            criteria = Criteria.where("deviceid").in(deviceIdList);
+        } else {
+            criteria = Criteria.where("deviceid").is(deviceId);
+        }
 
         Query query;
         if (type == BY_ACTIVETIME_DESC) {
